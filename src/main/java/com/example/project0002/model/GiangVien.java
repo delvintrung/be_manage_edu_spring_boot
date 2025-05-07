@@ -27,15 +27,19 @@ public class GiangVien {
     @Column(name = "chuyen_mon")
     private String chuyenMon;
 
+    @Column(name = "nam_sinh")
+    private String namSinh;
+
     public GiangVien() {}
 
-    public GiangVien(String id, Khoa khoa, User user, String hoTen, String trinhDo, String chuyenMon) {
+    public GiangVien(String id, Khoa khoa, User user, String hoTen, String trinhDo, String chuyenMon, String namSinh) {
         this.id = id;
         this.khoa = khoa;
         this.user = user;
         this.hoTen = hoTen;
         this.trinhDo = trinhDo;
         this.chuyenMon = chuyenMon;
+        this.namSinh = namSinh;
     }
 
     public String getId() {
@@ -84,5 +88,13 @@ public class GiangVien {
 
     public void setChuyenMon(String chuyenMon) {
         this.chuyenMon = chuyenMon;
+    }
+
+    public String getNamSinh() {
+        return namSinh;
+    }
+
+    public void setNamSinh(String namSinh) {
+        this.namSinh = namSinh;
     }
 }

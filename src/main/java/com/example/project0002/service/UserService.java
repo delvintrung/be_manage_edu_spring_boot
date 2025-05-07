@@ -54,6 +54,18 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public boolean updateRole(String id, String role) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy user với ID: " + id));
+
+        if(user != null) {
+        user.setRole(role);
+        userRepository.save(user);
+        return true;
+        }
+        return  false;
+    }
+
     // Delete
     public void deleteUser(String id) {
         User user = userRepository.findById(id)

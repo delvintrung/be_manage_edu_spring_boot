@@ -1,65 +1,158 @@
 package com.example.project0002.service;
 
-import com.example.project0002.model.PhanCongGiangDay;
 import com.example.project0002.model.GiangVien;
-import com.example.project0002.repository.PhanCongGiangDayRepository;
+import com.example.project0002.model.KeHoachMoNhom;
+import com.example.project0002.model.NhomHoc;
+import com.example.project0002.model.PhanCongGiangDay;
 import com.example.project0002.repository.GiangVienRepository;
+import com.example.project0002.repository.KeHoachMoNhomRepository;
+import com.example.project0002.repository.NhomHocRepository;
+import com.example.project0002.repository.PhanCongGiangDayRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PhanCongGiangDayService {
 
     @Autowired
-    private PhanCongGiangDayRepository phanCongGiangDayRepository;
-
-    @Autowired
     private GiangVienRepository giangVienRepository;
 
-    // Create
-    public PhanCongGiangDay createPhanCongGiangDay(PhanCongGiangDay phanCongGiangDay) {
-        // Kiểm tra giảng viên tồn tại
-        GiangVien giangVien = giangVienRepository.findById(phanCongGiangDay.getGiangVien().getId())
-                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy giảng viên với ID: " + phanCongGiangDay.getGiangVien().getId()));
-        phanCongGiangDay.setGiangVien(giangVien);
+    @Autowired
+    private KeHoachMoNhomRepository keHoachMoNhomRepository;
 
-        return phanCongGiangDayRepository.save(phanCongGiangDay);
+    @Autowired
+    private NhomHocRepository nhomHocRepository;
+
+    @Autowired
+    private PhanCongGiangDayRepository phanCongGiangDayRepository;
+
+    public PhanCongGiangDay createPhanCongGiangDay(PhanCongGiangDay phanCongGiangDay) {
+        // Validate KeHoachMoNhom
+        Optional<KeHoachMoNhom> keHoachMoNhomOpt = keHoachMoNhomRepository.findById(phanCongGiangDay.getKeHoachMoNhom().getId());
+        if (keHoachMoNhomOpt.isEmpty()) {
+            throw new IllegalArgumentException("Kế hoạch mở nhóm không tồn tại");
+        }
+
+        // Validate GiangVien
+        Optional<GiangVien> giangVienOpt = giangVienRepository.findById(phanCongGiangDay.getGiangVien().getId());
+        if (giangVienOpt.isEmpty()) {
+            throw new IllegalArgumentException("Giảng viên không tồn tại");
+        }
+
+        KeHoachMoNhom keHoachMoNhom = keHoachMoNhomOpt.get();
+        GiangVien giangVien = giangVienOpt.get();
+
+
+
+        // Validate NhomHoc
+        Optional<NhomHoc> nhomHocOpt = nhomHocRepository.findByKeHoachMoNhomIdAndMaNhom(
+                keHoachMoNhom.getId(), phanCongGiangDay.getNhom());
+        if (nhomHocOpt.isEmpty()) {
+            throw new IllegalArgumentException("Nhóm học không tồn tại cho kế hoạch mở nhóm này");
+        }
+
+        NhomHoc nhomHoc = nhomHocOpt.get();
+        if (nhomHoc.getGiangVien() != null) {
+            throw new IllegalArgumentException("Nhóm học đã được phân công cho giảng viên khác");
+        }
+
+        // Set soTiet from input (UI provides it)
+        if (phanCongGiangDay.getSoTiet() <= 0) {
+            throw new IllegalArgumentException("Số tiết phải lớn hơn 0");
+        }
+
+        // Save and update NhomHoc
+        PhanCongGiangDay savedPhanCong = phanCongGiangDayRepository.save(phanCongGiangDay);
+        nhomHoc.setGiangVien(giangVien);
+        nhomHocRepository.save(nhomHoc);
+
+        return savedPhanCong;
     }
 
-    // Read (all)
     public List<PhanCongGiangDay> getAllPhanCongGiangDay() {
         return phanCongGiangDayRepository.findAll();
     }
 
-    // Read (by ID)
-    public PhanCongGiangDay getPhanCongGiangDayById(String id) {
-        return phanCongGiangDayRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy phân công giảng dạy với ID: " + id));
+    public List<PhanCongGiangDay> getPhanCongGiangDayByKeHoachMoNhomId(String keHoachMoNhomId) {
+        return phanCongGiangDayRepository.findByKeHoachMoNhomId(keHoachMoNhomId);
     }
 
-    // Update
+    public PhanCongGiangDay getPhanCongGiangDayById(String id) {
+        return phanCongGiangDayRepository.findById(id).orElse(null);
+    }
+
     public PhanCongGiangDay updatePhanCongGiangDay(String id, PhanCongGiangDay phanCongGiangDayDetails) {
-        PhanCongGiangDay phanCongGiangDay = phanCongGiangDayRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy phân công giảng dạy với ID: " + id));
-
-        phanCongGiangDay.setSoTiet(phanCongGiangDayDetails.getSoTiet());
-
-        // Cập nhật giảng viên nếu có
-        if (phanCongGiangDayDetails.getGiangVien() != null) {
-            GiangVien giangVien = giangVienRepository.findById(phanCongGiangDayDetails.getGiangVien().getId())
-                    .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy giảng viên với ID: " + phanCongGiangDayDetails.getGiangVien().getId()));
-            phanCongGiangDay.setGiangVien(giangVien);
+        Optional<PhanCongGiangDay> existingOpt = phanCongGiangDayRepository.findById(id);
+        if (existingOpt.isEmpty()) {
+            return null;
         }
 
-        return phanCongGiangDayRepository.save(phanCongGiangDay);
+        PhanCongGiangDay existing = existingOpt.get();
+
+        // Validate KeHoachMoNhom
+        Optional<KeHoachMoNhom> keHoachMoNhomOpt = keHoachMoNhomRepository.findById(phanCongGiangDayDetails.getKeHoachMoNhom().getId());
+        if (keHoachMoNhomOpt.isEmpty()) {
+            throw new IllegalArgumentException("Kế hoạch mở nhóm không tồn tại");
+        }
+
+        // Validate GiangVien
+        Optional<GiangVien> giangVienOpt = giangVienRepository.findById(phanCongGiangDayDetails.getGiangVien().getId());
+        if (giangVienOpt.isEmpty()) {
+            throw new IllegalArgumentException("Giảng viên không tồn tại");
+        }
+
+        KeHoachMoNhom keHoachMoNhom = keHoachMoNhomOpt.get();
+        GiangVien giangVien = giangVienOpt.get();
+
+        // Validate NhomHoc
+        Optional<NhomHoc> nhomHocOpt = nhomHocRepository.findByKeHoachMoNhomIdAndMaNhom(
+                keHoachMoNhom.getId(), phanCongGiangDayDetails.getNhom());
+        if (nhomHocOpt.isEmpty()) {
+            throw new IllegalArgumentException("Nhóm học không tồn tại cho kế hoạch mở nhóm này");
+        }
+
+        NhomHoc nhomHoc = nhomHocOpt.get();
+        if (nhomHoc.getGiangVien() != null && !nhomHoc.getGiangVien().getId().equals(giangVien.getId())) {
+            throw new IllegalArgumentException("Nhóm học đã được phân công cho giảng viên khác");
+        }
+
+        // Update fields
+        existing.setGiangVien(phanCongGiangDayDetails.getGiangVien());
+        existing.setKeHoachMoNhom(phanCongGiangDayDetails.getKeHoachMoNhom());
+        existing.setNhom(phanCongGiangDayDetails.getNhom());
+        existing.setHocKy(phanCongGiangDayDetails.getHocKy());
+        existing.setSoTiet(phanCongGiangDayDetails.getSoTiet());
+
+        // Validate soTiet
+        if (existing.getSoTiet() <= 0) {
+            throw new IllegalArgumentException("Số tiết phải lớn hơn 0");
+        }
+
+        // Update NhomHoc
+        nhomHoc.setGiangVien(giangVien);
+        nhomHocRepository.save(nhomHoc);
+
+        return phanCongGiangDayRepository.save(existing);
     }
 
-    // Delete
     public void deletePhanCongGiangDay(String id) {
-        PhanCongGiangDay phanCongGiangDay = phanCongGiangDayRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy phân công giảng dạy với ID: " + id));
-        phanCongGiangDayRepository.delete(phanCongGiangDay);
+        Optional<PhanCongGiangDay> phanCongOpt = phanCongGiangDayRepository.findById(id);
+        if (phanCongOpt.isEmpty()) {
+            throw new IllegalArgumentException("Phân công giảng dạy không tồn tại");
+        }
+
+        PhanCongGiangDay phanCong = phanCongOpt.get();
+        Optional<NhomHoc> nhomHocOpt = nhomHocRepository.findByKeHoachMoNhomIdAndMaNhom(
+                phanCong.getKeHoachMoNhom().getId(), phanCong.getNhom());
+        if (nhomHocOpt.isPresent()) {
+            NhomHoc nhomHoc = nhomHocOpt.get();
+            nhomHoc.setGiangVien(null);
+            nhomHocRepository.save(nhomHoc);
+        }
+
+        phanCongGiangDayRepository.deleteById(id);
     }
 }

@@ -60,6 +60,7 @@ public class HocPhanService {
         hocPhan.setTinChi(hocPhanDetails.getTinChi());
         hocPhan.setTietLyThuyet(hocPhanDetails.getTietLyThuyet());
         hocPhan.setTietThucHanh(hocPhanDetails.getTietThucHanh());
+        hocPhan.setHocKyThucHien(hocPhanDetails.getHocKyThucHien());
 
         // Cập nhật ngành học nếu có
         if (hocPhanDetails.getNganhHoc() != null) {

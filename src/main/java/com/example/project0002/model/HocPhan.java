@@ -26,15 +26,19 @@ public class HocPhan {
     @Column(name = "tiet_thuc_hanh")
     private int tietThucHanh;
 
+    @Column(name = "hoc_ky_thuc_hien")
+    private Integer  hocKyThucHien;
+
     public HocPhan() {}
 
-    public HocPhan(String id, NganhHoc nganhHoc, String ten, String tinChi, int tietLyThuyet, int tietThucHanh) {
+    public HocPhan(String id, NganhHoc nganhHoc, String ten, String tinChi, int tietLyThuyet, int tietThucHanh, int hocKyThucHien) {
         this.id = id;
         this.nganhHoc = nganhHoc;
         this.ten = ten;
         this.tinChi = tinChi;
         this.tietLyThuyet = tietLyThuyet;
         this.tietThucHanh = tietThucHanh;
+        this.hocKyThucHien = hocKyThucHien;
     }
 
     public String getId() {
@@ -83,5 +87,11 @@ public class HocPhan {
 
     public void setTietThucHanh(int tietThucHanh) {
         this.tietThucHanh = tietThucHanh;
+    }
+    public int getHocKyThucHien() {
+        return hocKyThucHien;
+    }
+    public void setHocKyThucHien(int hocKyThucHien) {
+        this.hocKyThucHien = hocKyThucHien;
     }
 }

@@ -41,6 +41,7 @@ public class GiangVienService {
                 .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy user với ID: " + giangVien.getUser().getId()));
         giangVien.setUser(user);
 
+        userRepository.updateRole(giangVien.getId(), "GIANGVIEN");
         return giangVienRepository.save(giangVien);
     }
 
@@ -69,6 +70,7 @@ public class GiangVienService {
         giangVien.setHoTen(giangVienDetails.getHoTen());
         giangVien.setTrinhDo(giangVienDetails.getTrinhDo());
         giangVien.setChuyenMon(giangVienDetails.getChuyenMon());
+        giangVien.setNamSinh(giangVienDetails.getNamSinh());
 
         // Cập nhật khoa nếu có
         if (giangVienDetails.getKhoa() != null) {
