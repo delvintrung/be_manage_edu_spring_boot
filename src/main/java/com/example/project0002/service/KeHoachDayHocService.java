@@ -45,7 +45,6 @@ public class KeHoachDayHocService {
                 .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy kế hoạch dạy học với ID: " + id));
 
         keHoachDayHoc.setHocKy(keHoachDayHocDetails.getHocKy());
-        keHoachDayHoc.setNamHoc(keHoachDayHocDetails.getNamHoc());
 
         // Cập nhật học phần nếu có
         if (keHoachDayHocDetails.getHocPhan() != null) {

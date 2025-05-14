@@ -17,8 +17,10 @@ public class KeHoachDayHoc {
     @Column(name = "hoc_ky")
     private int hocKy;
 
-    @Column(name = "nam_hoc")
-    private int namHoc;
+
+    @ManyToOne
+    @JoinColumn(name = "ma_hoc_phan_truoc", referencedColumnName = "id")
+    private HocPhan hocPhanTruoc;
 
     public KeHoachDayHoc() {}
 
@@ -26,7 +28,6 @@ public class KeHoachDayHoc {
         this.id = id;
         this.hocPhan = hocPhan;
         this.hocKy = hocKy;
-        this.namHoc = namHoc;
     }
 
     public String getId() {
@@ -53,11 +54,4 @@ public class KeHoachDayHoc {
         this.hocKy = hocKy;
     }
 
-    public int getNamHoc() {
-        return namHoc;
-    }
-
-    public void setNamHoc(int namHoc) {
-        this.namHoc = namHoc;
-    }
 }

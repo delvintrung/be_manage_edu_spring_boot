@@ -26,11 +26,6 @@ public class HocPhanService {
             throw new IllegalArgumentException("Học phần với tên " + hocPhan.getTen() + " đã tồn tại!");
         }
 
-        // Kiểm tra ngành học tồn tại
-        NganhHoc nganhHoc = nganhHocRepository.findById(hocPhan.getNganhHoc().getId())
-                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy ngành học với ID: " + hocPhan.getNganhHoc().getId()));
-        hocPhan.setNganhHoc(nganhHoc);
-
         return hocPhanRepository.save(hocPhan);
     }
 
@@ -60,14 +55,8 @@ public class HocPhanService {
         hocPhan.setTinChi(hocPhanDetails.getTinChi());
         hocPhan.setTietLyThuyet(hocPhanDetails.getTietLyThuyet());
         hocPhan.setTietThucHanh(hocPhanDetails.getTietThucHanh());
-        hocPhan.setHocKyThucHien(hocPhanDetails.getHocKyThucHien());
 
-        // Cập nhật ngành học nếu có
-        if (hocPhanDetails.getNganhHoc() != null) {
-            NganhHoc nganhHoc = nganhHocRepository.findById(hocPhanDetails.getNganhHoc().getId())
-                    .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy ngành học với ID: " + hocPhanDetails.getNganhHoc().getId()));
-            hocPhan.setNganhHoc(nganhHoc);
-        }
+
 
         return hocPhanRepository.save(hocPhan);
     }

@@ -139,10 +139,6 @@ public class NhomHocService {
         return nhomHocRepository.findAll();
     }
 
-    public List<NhomHoc> getNhomHocByNganhHoc(String nganhHocId) {
-        return nhomHocRepository.findByKeHoachMoNhomHocPhanNganhHocId(nganhHocId);
-    }
-
     public List<NhomHoc> getNhomHocByGiangVien(String giangVienId) {
         return nhomHocRepository.findByGiangVienId(giangVienId);
     }

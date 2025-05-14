@@ -42,11 +42,7 @@ public class NhomHocController {
         return ResponseEntity.ok(nhomHocs);
     }
 
-    @GetMapping("/nganhhoc/{nganhHocId}")
-    public ResponseEntity<List<NhomHoc>> getNhomHocByNganhHoc(@PathVariable String nganhHocId) {
-        List<NhomHoc> nhomHocs = nhomHocService.getNhomHocByNganhHoc(nganhHocId);
-        return ResponseEntity.ok(nhomHocs);
-    }
+
 
     @GetMapping("/giangvien/{giangVienId}")
     public ResponseEntity<List<NhomHoc>> getNhomHocByGiangVien(@PathVariable String giangVienId) {

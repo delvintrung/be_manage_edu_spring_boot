@@ -10,9 +10,6 @@ public class HocPhan {
     @Column(name = "id")
     private String id;
 
-    @ManyToOne
-    @JoinColumn(name = "nganh_hoc_id", referencedColumnName = "id")
-    private NganhHoc nganhHoc;
 
     @Column(name = "ten")
     private String ten;
@@ -26,19 +23,14 @@ public class HocPhan {
     @Column(name = "tiet_thuc_hanh")
     private int tietThucHanh;
 
-    @Column(name = "hoc_ky_thuc_hien")
-    private Integer  hocKyThucHien;
-
     public HocPhan() {}
 
-    public HocPhan(String id, NganhHoc nganhHoc, String ten, String tinChi, int tietLyThuyet, int tietThucHanh, int hocKyThucHien) {
+    public HocPhan(String id, String ten, String tinChi, int tietLyThuyet, int tietThucHanh) {
         this.id = id;
-        this.nganhHoc = nganhHoc;
         this.ten = ten;
         this.tinChi = tinChi;
         this.tietLyThuyet = tietLyThuyet;
         this.tietThucHanh = tietThucHanh;
-        this.hocKyThucHien = hocKyThucHien;
     }
 
     public String getId() {
@@ -49,13 +41,6 @@ public class HocPhan {
         this.id = id;
     }
 
-    public NganhHoc getNganhHoc() {
-        return nganhHoc;
-    }
-
-    public void setNganhHoc(NganhHoc nganhHoc) {
-        this.nganhHoc = nganhHoc;
-    }
 
     public String getTen() {
         return ten;
@@ -87,11 +72,5 @@ public class HocPhan {
 
     public void setTietThucHanh(int tietThucHanh) {
         this.tietThucHanh = tietThucHanh;
-    }
-    public int getHocKyThucHien() {
-        return hocKyThucHien;
-    }
-    public void setHocKyThucHien(int hocKyThucHien) {
-        this.hocKyThucHien = hocKyThucHien;
     }
 }

@@ -11,6 +11,5 @@ import java.util.Optional;
 public interface NhomHocRepository extends JpaRepository<NhomHoc, String> {
     List<NhomHoc> findByKeHoachMoNhomId(String keHoachMoNhomId);
     List<NhomHoc> findByGiangVienId(String giangVienId);
-    List<NhomHoc> findByKeHoachMoNhomHocPhanNganhHocId(String nganhHocId);
     Optional<NhomHoc> findByKeHoachMoNhomIdAndMaNhom(String keHoachMoNhomId, int maNhom);
 }
