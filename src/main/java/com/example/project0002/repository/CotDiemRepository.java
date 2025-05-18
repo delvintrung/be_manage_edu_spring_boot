@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface CotDiemRepository extends JpaRepository<CotDiem, String> {
-    Optional<CotDiem> findByTen(String ten);
+    Optional<CotDiem> findByTenCotDiem(String tenCotDiem);
 }

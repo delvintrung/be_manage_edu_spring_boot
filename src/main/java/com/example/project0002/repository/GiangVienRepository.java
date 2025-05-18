@@ -8,5 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface GiangVienRepository extends JpaRepository<GiangVien, String> {
+    long count();
     Optional<GiangVien> findByHoTen(String hoTen);
 }

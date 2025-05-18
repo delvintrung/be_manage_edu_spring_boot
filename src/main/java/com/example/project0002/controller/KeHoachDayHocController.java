@@ -18,8 +18,18 @@ public class KeHoachDayHocController {
     // Create
     @PostMapping
     public ResponseEntity<KeHoachDayHoc> createKeHoachDayHoc(@RequestBody KeHoachDayHoc keHoachDayHoc) {
+        System.out.println(keHoachDayHoc.getNganhHocId());
         KeHoachDayHoc createdKeHoachDayHoc = keHoachDayHocService.createKeHoachDayHoc(keHoachDayHoc);
+
         return ResponseEntity.ok(createdKeHoachDayHoc);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<KeHoachDayHoc>> searchKeHoachDayHoc(
+            @RequestParam(required = false) Integer hocKy,
+            @RequestParam(required = false) String nganhHocId) {
+        List<KeHoachDayHoc> keHoachDayHocs = keHoachDayHocService.findByHocKyAndNganhHocId(hocKy, nganhHocId);
+        return ResponseEntity.ok(keHoachDayHocs);
     }
 
     // Read (all)

@@ -10,6 +10,9 @@ public class KeHoachDayHoc {
     @Column(name = "id")
     private String id;
 
+    @Column(name = "nganh_hoc_id")
+    private String nganhHocId;
+
     @ManyToOne
     @JoinColumn(name = "hoc_phan_id", referencedColumnName = "id")
     private HocPhan hocPhan;
@@ -54,4 +57,19 @@ public class KeHoachDayHoc {
         this.hocKy = hocKy;
     }
 
+    public HocPhan getHocPhanTruoc() {
+        return hocPhanTruoc;
+    }
+
+    public String getNganhHocId() {
+        return nganhHocId;
+    }
+
+    public void setNganhHocId(String nganhHocId) {
+        this.nganhHocId = nganhHocId;
+    }
+
+    public void setHocPhanTruoc(HocPhan hocPhanTruoc) {
+        this.hocPhanTruoc = hocPhanTruoc;
+    }
 }

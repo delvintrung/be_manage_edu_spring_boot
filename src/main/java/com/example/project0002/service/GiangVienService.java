@@ -24,6 +24,11 @@ public class GiangVienService {
     @Autowired
     private UserRepository userRepository;
 
+    public  long countAllGiangVien() {
+        long count = giangVienRepository.count();
+        return  count;
+    }
+
     // Create
     public GiangVien createGiangVien(GiangVien giangVien) {
         Optional<GiangVien> existingGiangVien = giangVienRepository.findByHoTen(giangVien.getHoTen());

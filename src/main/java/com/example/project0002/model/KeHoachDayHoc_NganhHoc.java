@@ -17,6 +17,9 @@ public class KeHoachDayHoc_NganhHoc {
     @JoinColumn(name = "nganh_hoc_id", referencedColumnName = "id")
     private NganhHoc nganhHoc;
 
+    public KeHoachDayHoc_NganhHoc() {
+    }
+
     public KeHoachDayHoc_NganhHoc(String id, KeHoachDayHoc keHoachDayHoc, NganhHoc nganhHoc) {
         this.id = id;
         this.keHoachDayHoc = keHoachDayHoc;

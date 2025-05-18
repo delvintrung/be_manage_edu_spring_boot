@@ -14,19 +14,22 @@ public class CotDiem {
     @JoinColumn(name = "de_cuong_id", referencedColumnName = "id")
     private DeCuongChiTiet deCuongChiTiet;
 
-    @Column(name = "ten")
-    private String ten;
+    @Column(name = "ten_cot_diem")
+    private String tenCotDiem;
 
-    @Column(name = "mo_ta")
-    private String moTa;
+    @Column(name = "trong_so_danh_gia")
+    private String trongSoDanhGia;
 
+    @Column(name = "hinh_thuc_danh_gia")
+    private String hinhThucDanhGia;
     public CotDiem() {}
 
-    public CotDiem(String id, DeCuongChiTiet deCuongChiTiet, String ten, String moTa) {
+    public CotDiem(String id, DeCuongChiTiet deCuongChiTiet, String tenCotDiem, String trongSoDanhGia, String hinhThucDanhGia) {
         this.id = id;
         this.deCuongChiTiet = deCuongChiTiet;
-        this.ten = ten;
-        this.moTa = moTa;
+        this.tenCotDiem = tenCotDiem;
+        this.trongSoDanhGia = trongSoDanhGia;
+        this.hinhThucDanhGia = hinhThucDanhGia;
     }
 
     public String getId() {
@@ -45,19 +48,27 @@ public class CotDiem {
         this.deCuongChiTiet = deCuongChiTiet;
     }
 
-    public String getTen() {
-        return ten;
+    public String getTenCotDiem() {
+        return tenCotDiem;
     }
 
-    public void setTen(String ten) {
-        this.ten = ten;
+    public void setTenCotDiem(String tenCotDiem) {
+        this.tenCotDiem = tenCotDiem;
     }
 
-    public String getMoTa() {
-        return moTa;
+    public String getTrongSoDanhGia() {
+        return trongSoDanhGia;
     }
 
-    public void setMoTa(String moTa) {
-        this.moTa = moTa;
+    public void setTrongSoDanhGia(String trongSoDanhGia) {
+        this.trongSoDanhGia = trongSoDanhGia;
+    }
+
+    public String getHinhThucDanhGia() {
+        return hinhThucDanhGia;
+    }
+
+    public void setHinhThucDanhGia(String hinhThucDanhGia) {
+        this.hinhThucDanhGia = hinhThucDanhGia;
     }
 }

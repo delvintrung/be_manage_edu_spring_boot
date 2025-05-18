@@ -44,10 +44,7 @@ public class DeCuongChiTietService {
         DeCuongChiTiet deCuongChiTiet = deCuongChiTietRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy đề cương chi tiết với ID: " + id));
 
-        deCuongChiTiet.setMucTieu(deCuongChiTietDetails.getMucTieu());
-        deCuongChiTiet.setNoiDung(deCuongChiTietDetails.getNoiDung());
-        deCuongChiTiet.setPhuongPhapDanhGia(deCuongChiTietDetails.getPhuongPhapDanhGia());
-        deCuongChiTiet.setTaiLieuThamKhao(deCuongChiTietDetails.getTaiLieuThamKhao());
+        deCuongChiTiet.setHocPhan(deCuongChiTietDetails.getHocPhan());
 
         // Cập nhật học phần nếu có
         if (deCuongChiTietDetails.getHocPhan() != null) {
