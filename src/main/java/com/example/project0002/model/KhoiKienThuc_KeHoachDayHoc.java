@@ -25,6 +25,10 @@ public class KhoiKienThuc_KeHoachDayHoc {
         this.keHoachDayHoc = keHoachDayHoc;
     }
 
+    public KhoiKienThuc_KeHoachDayHoc() {
+
+    }
+
     public String getId() {
         return id;
     }

@@ -1,7 +1,9 @@
 package com.example.project0002.controller;
 
+import com.example.project0002.model.ChuongTrinhDaoTao;
 import com.example.project0002.model.HocPhan;
 import com.example.project0002.model.Khoa;
+import com.example.project0002.repository.ChuongTrinhDaoTaoRepository;
 import com.example.project0002.repository.HocPhanRepository;
 import com.example.project0002.service.GiangVienService;
 import com.example.project0002.repository.KhoaRepository;
@@ -32,6 +34,9 @@ public class ThongKeController {
     @Autowired
     private HocPhanRepository hocPhanRepository;
 
+    @Autowired
+    private ChuongTrinhDaoTaoRepository chuongTrinhDaoTaoRepository;
+
     @GetMapping
     public ResponseEntity<Map<String, Object>> getThongKe() {
         long tongGiangVien = giangVienRepository.findAll().size();
@@ -40,10 +45,13 @@ public class ThongKeController {
 
         List<HocPhan> hocPhanList = hocPhanRepository.findAll();
 
+        List<ChuongTrinhDaoTao> chuongTrinhDaoTaoList = chuongTrinhDaoTaoRepository.findAll();
+
         Map<String, Object> thongKe = new HashMap<>();
         thongKe.put("soGiangVien", tongGiangVien);
         thongKe.put("soKhoa", khoaList.size());
         thongKe.put("soHocPhan", hocPhanList.size());
+        thongKe.put("chuongTrinhDaoTao", chuongTrinhDaoTaoList.size());
         return ResponseEntity.ok(thongKe);
     }
 }
