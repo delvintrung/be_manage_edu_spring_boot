@@ -29,6 +29,12 @@ public class HocPhanController {
         return ResponseEntity.ok(hocPhanList);
     }
 
+    @GetMapping("/filter")
+    public ResponseEntity<List<HocPhan>> getFilterHocPhan(@RequestParam("nganhHocId") String nganhHocId) {
+        List<HocPhan> list = hocPhanService.getFilterHocPhan(nganhHocId);
+        return ResponseEntity.ok(list);
+    }
+
     // Read (by ID)
     @GetMapping("/{id}")
     public ResponseEntity<HocPhan> getHocPhanById(@PathVariable String id) {

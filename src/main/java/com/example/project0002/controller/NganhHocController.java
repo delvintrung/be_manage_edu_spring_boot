@@ -1,5 +1,6 @@
 package com.example.project0002.controller;
 
+import com.example.project0002.dto.NganhHocDto;
 import com.example.project0002.model.NganhHoc;
 import com.example.project0002.service.NganhHocService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,8 @@ public class NganhHocController {
 
     // Read (all)
     @GetMapping
-    public ResponseEntity<List<NganhHoc>> getAllNganhHoc() {
-        List<NganhHoc> nganhHocList = nganhHocService.getAllNganhHoc();
+    public ResponseEntity<List<NganhHocDto>> getAllNganhHoc() {
+        List<NganhHocDto> nganhHocList = nganhHocService.getAllNganhHoc();
         return ResponseEntity.ok(nganhHocList);
     }
 

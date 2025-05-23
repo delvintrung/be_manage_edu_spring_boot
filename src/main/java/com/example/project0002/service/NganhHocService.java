@@ -1,7 +1,9 @@
 package com.example.project0002.service;
 
+import com.example.project0002.dto.NganhHocDto;
 import com.example.project0002.model.NganhHoc;
 import com.example.project0002.model.Khoa;
+import com.example.project0002.repository.HocPhanRepository;
 import com.example.project0002.repository.NganhHocRepository;
 import com.example.project0002.repository.KhoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ public class NganhHocService {
     @Autowired
     private KhoaRepository khoaRepository;
 
+    @Autowired
+    private HocPhanRepository hocPhanRepository;
+
     // Create
     public NganhHoc createNganhHoc(NganhHoc nganhHoc) {
         Optional<NganhHoc> existingNganhHoc = nganhHocRepository.findByTen(nganhHoc.getTen());
@@ -35,8 +40,34 @@ public class NganhHocService {
     }
 
     // Read (all)
-    public List<NganhHoc> getAllNganhHoc() {
-        return nganhHocRepository.findAll();
+    public List<NganhHocDto> getAllNganhHoc() {
+        List<NganhHoc> nganhHocs = nganhHocRepository.findAll();
+
+        List<NganhHocDto> list = new java.util.ArrayList<>(List.of());
+
+        nganhHocs.forEach(nganhHoc -> {
+            Integer tongSoHocPhan = hocPhanRepository.countHocPhanByNganhHoc_Id(nganhHoc.getId());
+            Integer tongSoTinChi = hocPhanRepository.sumTinChiByNganhHocId(nganhHoc.getId());
+
+            if (tongSoHocPhan == null) {
+                tongSoHocPhan = 0;
+            }
+            if (tongSoTinChi == null) {
+                tongSoTinChi = 0;
+            }
+
+            NganhHocDto nganhHocDto = new NganhHocDto();
+            nganhHocDto.setId(nganhHoc.getId());
+            nganhHocDto.setKhoa(nganhHoc.getKhoa());
+            nganhHocDto.setMoTa(nganhHoc.getMoTa());
+            nganhHocDto.setTen(nganhHoc.getTen());
+            nganhHocDto.setTongSoTinChi(tongSoTinChi);
+            nganhHocDto.setTongSoHocPhan(tongSoHocPhan);
+
+            list.add(nganhHocDto);
+        });
+
+        return list;
     }
 
     // Read (by ID)

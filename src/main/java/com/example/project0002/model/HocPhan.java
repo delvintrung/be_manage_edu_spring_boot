@@ -23,14 +23,19 @@ public class HocPhan {
     @Column(name = "tiet_thuc_hanh")
     private int tietThucHanh;
 
+    @ManyToOne()
+    @JoinColumn(name = "nganh_hoc_id", referencedColumnName = "id")
+    private NganhHoc nganhHoc;
+
     public HocPhan() {}
 
-    public HocPhan(String id, String ten, String tinChi, int tietLyThuyet, int tietThucHanh) {
+    public HocPhan(String id, String ten, String tinChi, int tietLyThuyet, int tietThucHanh, NganhHoc nganhHoc) {
         this.id = id;
         this.ten = ten;
         this.tinChi = tinChi;
         this.tietLyThuyet = tietLyThuyet;
         this.tietThucHanh = tietThucHanh;
+        this.nganhHoc = nganhHoc;
     }
 
     public String getId() {
@@ -72,5 +77,13 @@ public class HocPhan {
 
     public void setTietThucHanh(int tietThucHanh) {
         this.tietThucHanh = tietThucHanh;
+    }
+
+    public NganhHoc getNganhHoc() {
+        return nganhHoc;
+    }
+
+    public void setNganhHoc(NganhHoc nganhHoc) {
+        this.nganhHoc = nganhHoc;
     }
 }

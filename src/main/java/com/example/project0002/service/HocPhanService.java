@@ -34,6 +34,10 @@ public class HocPhanService {
         return hocPhanRepository.findAll();
     }
 
+    public List<HocPhan> getFilterHocPhan(String nganhHocId) {
+        return hocPhanRepository.findAllByNganhHoc_Id(nganhHocId);
+    }
+
     // Read (by ID)
     public HocPhan getHocPhanById(String id) {
         return hocPhanRepository.findById(id)

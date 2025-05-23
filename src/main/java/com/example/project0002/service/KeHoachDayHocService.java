@@ -87,6 +87,12 @@ public class KeHoachDayHocService {
 //            keHoachDayHoc.setHocPhanTruoc(hocPhan);
 //        }
 
+        if (keHoachDayHocDetails.getNganhHocId() != null) {
+            NganhHoc nganhHoc = nganhHocRepository.findById(keHoachDayHocDetails.getNganhHocId())
+                    .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy ngành học với ID: "));
+            keHoachDayHoc.setNganhHocId(keHoachDayHocDetails.getNganhHocId());
+        }
+
         return keHoachDayHocRepository.save(keHoachDayHoc);
     }
 
